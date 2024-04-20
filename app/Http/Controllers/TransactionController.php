@@ -87,31 +87,15 @@ class TransactionController extends Controller
         return response()->json(['message' => 'Transaction deleted']);
     }
 
-    public function getSoldItems(Request $request)
+    public function getSoldItems()
     {
-        $start_date = $request->query('start_date');
-        $end_date = $request->query('end_date');
-
         $query = Transaction::query();
+        $transactions = $query->get();
 
-        if ($start_date) {
-            $query->where('transaction_date', '>=', $start_date);
+        if ($transactions->isEmpty()) {
+            return response()->json(['message' => 'Transaction not found'], 200);
         }
 
-        if ($end_date) {
-            $query->where('transaction_date', '<=', $end_date);
-        }
-
-        $mostSoldItem = $query->orderBy('quantity_sold', 'desc')->first();
-        $leastSoldItem = $query->orderBy('quantity_sold', 'asc')->first();
-
-        if (!$mostSoldItem && !$leastSoldItem) {
-            return response()->json(['message' => 'Transactions not found'], 404);
-        }
-
-        return response()->json([
-            'mostSoldItem' => $mostSoldItem,
-            'leastSoldItem' => $leastSoldItem,
-        ]);
+        return response()->json($transactions);
     }
 }
