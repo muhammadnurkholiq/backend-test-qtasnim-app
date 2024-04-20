@@ -9,7 +9,6 @@ Route::prefix('transactions')->group(function () {
   Route::get('/{id}', [TransactionController::class, 'show']);
   Route::put('/{id}', [TransactionController::class, 'update']);
   Route::delete('/{id}', [TransactionController::class, 'destroy']);
-  Route::get('/most-sold-item', [TransactionController::class, 'getMostSoldItem']);
-  Route::get('/least-sold-item', [TransactionController::class, 'getLeastSoldItem']);
+  Route::get('/get-sold-item', [TransactionController::class, 'getSoldItems']);
 });
 
